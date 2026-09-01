@@ -1323,33 +1323,21 @@ let lines=[
  "SYSTEM READY"
 ];
 
-let n=0;
+/* BOOT — FIXED */
 
-let timer=setInterval(()=>{
+function finishBoot(){
+  const boot = document.getElementById("boot");
+  const line = document.getElementById("bootLine");
 
- document.getElementById("bootLine")
-  .textContent=lines[n++];
+  if(line) line.textContent = "SYSTEM ONLINE";
 
- if(n===lines.length){
+  if(boot){
+    boot.classList.add("hide");
+    setTimeout(() => {
+      boot.style.display = "none";
+    }, 800);
+  }
+}
 
-  clearInterval(timer);
-
-  setTimeout(()=>{
-
-   document
-    .getElementById("boot")
-    .classList
-    .add("hide");
-
-  },500);
-
- }
-
-},400);
-
-updateBalance();
-
-</script>
-
-</body>
-</html>
+setTimeout(finishBoot, 1000);
+setTimeout(finishBoot, 3000);
