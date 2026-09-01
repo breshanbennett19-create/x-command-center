@@ -8,54 +8,1348 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="X">
 <link rel="manifest" href="manifest.webmanifest">
-<title>X • Personal Command Center</title>
+<title>X • Command Center</title>
+
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#020603;color:#49ff7b;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,monospace}
-body{padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);background:radial-gradient(circle at 50% 15%,#0a2814,#020603 48%,#000)}
-.app{max-width:1050px;margin:auto}.panel{background:rgba(2,11,5,.95);border:1px solid #176d31;border-radius:16px;box-shadow:0 0 22px rgba(73,255,123,.18),inset 0 0 22px rgba(73,255,123,.04)}
-header{margin-top:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.logo{font-weight:900;font-size:34px;letter-spacing:7px;text-shadow:0 0 16px #49ff7b}.online{font-size:10px}.led{display:inline-block;width:8px;height:8px;border-radius:50%;background:#49ff7b;box-shadow:0 0 12px #49ff7b}
-.grid{display:grid;grid-template-columns:175px 1fr 220px;gap:12px;margin-top:12px}.nav,.side{padding:11px}.nav button,.action{width:100%;margin:4px 0;padding:12px;border-radius:9px;border:1px solid #145f2b;background:#06160a;color:#49ff7b;text-align:left}.nav button:active,.action:active{transform:scale(.98)}
-.core{min-height:400px;padding:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.orb{width:205px;height:205px;border:2px solid #49ff7b;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 35px #126a2e,inset 0 0 35px #073b17;position:relative}.orb:before{content:"";position:absolute;inset:18px;border:1px dashed #168c38;border-radius:50%}.orb:after{content:"";position:absolute;inset:-15px;border:1px solid #126a2e;border-top-color:#49ff7b;border-radius:50%;animation:spin 7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.xmark{font-size:58px;font-weight:900;text-shadow:0 0 20px #49ff7b}.output{margin-top:20px;min-height:62px;line-height:1.6;color:#b8ebc5}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.cards .panel{padding:14px}.metric{font-size:25px;margin:8px 0}.muted{font-size:11px;color:#79a987}.meter{height:7px;background:#09200f;border-radius:10px;overflow:hidden;margin:7px 0 12px}.meter i{display:block;height:100%;background:#49ff7b;box-shadow:0 0 9px #49ff7b}
-.command{display:flex;gap:8px;padding:10px;margin-top:12px}.command input{flex:1;min-width:0;padding:14px;background:#010502;color:#49ff7b;border:1px solid #176d31;border-radius:10px;outline:none}.command button{padding:0 16px;border:0;border-radius:10px;background:#49ff7b;color:#001006;font-weight:900}.log{padding:12px;margin-top:12px;min-height:55px;font-size:12px}.boot{position:fixed;inset:0;background:#010402;display:grid;place-items:center;z-index:5;transition:opacity .7s}.bootBox{text-align:center}.bootTitle{font-size:72px;font-weight:900;letter-spacing:12px;text-shadow:0 0 25px #49ff7b}.bootLine{margin-top:14px;font-size:11px;color:#8fdca2}.hide{opacity:0;pointer-events:none}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.nav{display:grid;grid-template-columns:1fr 1fr;gap:5px}.nav button{margin:0}.cards{grid-template-columns:1fr}.core{min-height:370px}}
+*{box-sizing:border-box}
+html,body{
+ margin:0;
+ min-height:100%;
+ background:#020603;
+ color:#49ff7b;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",monospace
+}
+body{
+ padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+ background:radial-gradient(circle at 50% 10%,#0b3017,#020603 48%,#000)
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1050px;margin:auto}
+.panel{
+ background:rgba(2,11,5,.96);
+ border:1px solid #176d31;
+ border-radius:16px;
+ box-shadow:0 0 22px rgba(73,255,123,.16),inset 0 0 22px rgba(73,255,123,.04)
+}
+header{
+ margin-top:10px;
+ padding:15px 18px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+.logo{
+ font-weight:900;
+ font-size:38px;
+ letter-spacing:7px;
+ text-shadow:0 0 16px #49ff7b
+}
+.online{font-size:11px}
+.led{
+ display:inline-block;
+ width:9px;
+ height:9px;
+ border-radius:50%;
+ background:#49ff7b;
+ box-shadow:0 0 12px #49ff7b
+}
+.grid{
+ display:grid;
+ grid-template-columns:180px 1fr 220px;
+ gap:12px;
+ margin-top:12px
+}
+.nav,.side{padding:11px}
+.nav button,.action{
+ width:100%;
+ margin:4px 0;
+ padding:13px;
+ border-radius:10px;
+ border:1px solid #145f2b;
+ background:#06160a;
+ color:#49ff7b;
+ text-align:left
+}
+button:active{transform:scale(.98)}
+.core{
+ min-height:400px;
+ padding:20px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center
+}
+.orb{
+ width:205px;
+ height:205px;
+ border:2px solid #49ff7b;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ box-shadow:0 0 35px #126a2e,inset 0 0 35px #073b17;
+ position:relative
+}
+.orb:before{
+ content:"";
+ position:absolute;
+ inset:18px;
+ border:1px dashed #168c38;
+ border-radius:50%
+}
+.orb:after{
+ content:"";
+ position:absolute;
+ inset:-15px;
+ border:1px solid #126a2e;
+ border-top-color:#49ff7b;
+ border-radius:50%;
+ animation:spin 7s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.xmark{
+ font-size:58px;
+ font-weight:900;
+ text-shadow:0 0 20px #49ff7b
+}
+.output{
+ margin-top:20px;
+ min-height:62px;
+ line-height:1.6;
+ color:#b8ebc5
+}
+.cards{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-top:12px
+}
+.cards .panel{padding:14px}
+.metric{font-size:25px;margin:8px 0}
+.muted{font-size:11px;color:#79a987}
+.meter{
+ height:7px;
+ background:#09200f;
+ border-radius:10px;
+ overflow:hidden;
+ margin:7px 0 12px
+}
+.meter i{
+ display:block;
+ height:100%;
+ background:#49ff7b;
+ box-shadow:0 0 9px #49ff7b
+}
+.command{
+ display:flex;
+ gap:8px;
+ padding:10px;
+ margin-top:12px
+}
+.command input{
+ flex:1;
+ min-width:0;
+ padding:14px;
+ background:#010502;
+ color:#49ff7b;
+ border:1px solid #176d31;
+ border-radius:10px;
+ outline:none
+}
+.command button{
+ padding:0 16px;
+ border:0;
+ border-radius:10px;
+ background:#49ff7b;
+ color:#001006;
+ font-weight:900
+}
+.log{
+ padding:12px;
+ margin-top:12px;
+ min-height:55px;
+ font-size:12px
+}
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.86);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ z-index:10
+}
+.modalBox{
+ width:min(650px,100%);
+ max-height:90vh;
+ overflow:auto;
+ padding:20px
+}
+.modal h2{margin-top:0}
+.close{
+ float:right;
+ background:none;
+ border:1px solid #176d31;
+ color:#49ff7b;
+ border-radius:8px;
+ padding:6px 10px
+}
+.row{
+ display:flex;
+ gap:8px;
+ margin:8px 0
+}
+.row>*{flex:1}
+.item{
+ border:1px solid #145f2b;
+ border-radius:9px;
+ padding:10px;
+ margin:7px 0;
+ display:flex;
+ justify-content:space-between;
+ gap:8px
+}
+.small{
+ padding:7px 10px!important;
+ width:auto!important
+}
+.modal input,.modal textarea{
+ width:100%;
+ padding:13px;
+ margin:5px 0;
+ background:#010502;
+ color:#49ff7b;
+ border:1px solid #176d31;
+ border-radius:10px;
+ outline:none
+}
+.modal textarea{height:160px;resize:vertical}
+.videoWrap{
+ position:relative;
+ width:100%;
+ aspect-ratio:16/9;
+ margin-top:14px;
+ border:1px solid #176d31;
+ border-radius:12px;
+ overflow:hidden;
+ background:#000;
+ box-shadow:0 0 25px rgba(73,255,123,.15)
+}
+.videoWrap iframe{
+ width:100%;
+ height:100%;
+ border:0
+}
+.videoHint{
+ padding:10px;
+ border:1px dashed #176d31;
+ border-radius:10px;
+ margin-top:10px;
+ font-size:11px;
+ color:#79a987
+}
+.boot{
+ position:fixed;
+ inset:0;
+ background:#010402;
+ display:grid;
+ place-items:center;
+ z-index:20;
+ transition:opacity .7s
+}
+.boot.hide{
+ opacity:0;
+ pointer-events:none
+}
+.bootTitle{
+ font-size:72px;
+ font-weight:900;
+ letter-spacing:12px;
+ text-shadow:0 0 25px #49ff7b
+}
+.bootLine{
+ margin-top:14px;
+ font-size:11px;
+ color:#8fdca2
+}
+@media(max-width:800px){
+ .grid{grid-template-columns:1fr}
+ .nav{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px
+ }
+ .nav button{margin:0}
+ .cards{grid-template-columns:1fr}
+ .core{min-height:370px}
+ .row{flex-direction:column}
+}
 </style>
 </head>
+
 <body>
-<div class="boot" id="boot"><div class="bootBox"><div class="bootTitle">X</div><div class="bootLine" id="bootLine">INITIALIZING...</div></div></div>
+
+<div class="boot" id="boot">
+ <div>
+  <div class="bootTitle">X</div>
+  <div class="bootLine" id="bootLine">INITIALIZING...</div>
+ </div>
+</div>
+
 <div class="app">
-<header class="panel"><div class="logo">X</div><div class="online"><span class="led"></span> SYSTEM ONLINE</div></header>
+
+<header class="panel">
+ <div class="logo">X</div>
+ <div class="online">
+  <span class="led"></span> SYSTEM ONLINE
+ </div>
+</header>
+
 <div class="grid">
+
 <nav class="panel nav">
-<button data-msg="Dashboard active.">◉ DASHBOARD</button>
-<button data-msg="Investor mode engaged.">▣ INVESTOR</button>
-<button data-msg="Email module ready. Connect a supported email service for real actions.">✉ EMAIL</button>
-<button data-msg="Calendar module ready.">□ CALENDAR</button>
-<button data-msg="Reminders module ready.">♢ REMINDERS</button>
-<button data-msg="App center ready.">▦ APPS</button>
-<button id="call">☎ CALL 🔒</button><button id="text">▤ TEXT 🔒</button>
+ <button onclick="showDashboard()">◉ DASHBOARD</button>
+ <button onclick="openInvestor()">▣ INVESTOR</button>
+ <button onclick="openEmail()">✉ EMAIL</button>
+ <button onclick="openCalendar()">□ CALENDAR</button>
+ <button onclick="openReminders()">♢ REMINDERS</button>
+ <button onclick="openApps()">▦ APPS</button>
+ <button onclick="openYouTube()">▶ YOUTUBE</button>
+ <button onclick="secureCall()">☎ CALL 🔒</button>
+ <button onclick="secureText()">▤ TEXT 🔒</button>
 </nav>
+
 <main>
-<section class="panel core"><div class="orb"><div class="xmark">X</div></div><div class="output" id="output">AWAITING COMMAND.</div></section>
+
+<section class="panel core">
+ <div class="orb">
+  <div class="xmark">X</div>
+ </div>
+
+ <div class="output" id="output">
+  <b>X:</b> AWAITING COMMAND.
+ </div>
+</section>
+
 <section class="cards">
-<div class="panel"><b>X INVESTOR CORE</b><div class="metric">$10,000</div><div class="muted">SIMULATED PORTFOLIO</div><div class="meter"><i style="width:62%"></i></div><button class="action" data-msg="X Investor Simulator selected.">OPEN INVESTOR →</button></div>
-<div class="panel"><b>SYSTEM MONITOR</b><p class="muted">NETWORK</p><div class="meter"><i style="width:91%"></i></div><p class="muted">SECURITY</p><div class="meter"><i style="width:100%"></i></div></div>
+
+<div class="panel">
+ <b>X INVESTOR CORE</b>
+ <div class="metric" id="balance">$10,000</div>
+ <div class="muted">SIMULATED PORTFOLIO</div>
+ <div class="meter">
+  <i id="meter" style="width:62%"></i>
+ </div>
+ <button class="action" onclick="openInvestor()">
+  OPEN INVESTOR →
+ </button>
+</div>
+
+<div class="panel">
+ <b>SYSTEM MONITOR</b>
+
+ <p class="muted">NETWORK</p>
+ <div class="meter">
+  <i style="width:91%"></i>
+ </div>
+
+ <p class="muted">SECURITY</p>
+ <div class="meter">
+  <i style="width:100%"></i>
+ </div>
+
+ <p class="muted" id="savedStatus">
+  LOCAL DATA READY
+ </p>
+</div>
+
 </section>
 </main>
-<aside class="panel side"><b>X ADVISOR</b><p class="muted">OWNER MINDSET</p><p>Ask what changed in the business, what you are paying, and what could make the thesis wrong.</p><button class="action" data-msg="Great company does not automatically mean great investment. Price matters.">INSIGHT</button></aside>
+
+<aside class="panel side">
+ <b>X ADVISOR</b>
+ <p class="muted">OWNER MINDSET</p>
+ <p>
+  Use X to organize your dashboard, investments,
+  calendar, reminders, apps and video.
+ </p>
+
+ <button class="action" onclick="openYouTube()">
+  ▶ OPEN YOUTUBE
+ </button>
+
+ <button class="action" onclick="say('Great company does not automatically mean great investment. Price matters.')">
+  INSIGHT
+ </button>
+</aside>
+
 </div>
-<div class="panel command"><input id="cmd" placeholder="Type: analyze NVDA" autocomplete="off"><button id="go">EXECUTE</button></div>
-<div class="panel log" id="log">X LOG — system boot complete.</div>
+
+<div class="panel command">
+ <input
+  id="cmd"
+  placeholder="Try: YouTube, NVDA, calendar, reminders"
+  autocomplete="off"
+ >
+ <button onclick="runCommand()">EXECUTE</button>
 </div>
+
+<div class="panel log" id="log">
+ X LOG — system boot complete.
+</div>
+
+</div>
+
+
+<!-- UNIVERSAL MODAL -->
+
+<div class="modal" id="modal">
+ <div class="panel modalBox">
+  <button class="close" onclick="closeModal()">✕</button>
+  <div id="modalContent"></div>
+ </div>
+</div>
+
+
 <script>
-const output=document.getElementById('output'),log=document.getElementById('log'),input=document.getElementById('cmd');
-function say(s){output.innerHTML='<b>X:</b> '+s;log.textContent='X LOG — '+s}
-function run(){const v=input.value.trim();if(!v){say('Please enter a command.');return}const x=v.toLowerCase();if(x.includes('nvda')||x.includes('invest'))say('Investor mode engaged. I can guide you through revenue, margins, EPS, P/E, cash flow, competition, risk, and valuation.');else if(x.includes('status'))say('All prototype systems are online.');else if(x.includes('help'))say('Try: analyze NVDA, investor mode, or system status.');else say('Command received: '+v);input.value='';input.focus()}
-document.getElementById('go').onclick=run;input.onkeydown=e=>{if(e.key==='Enter')run()};
-document.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>say(b.dataset.msg));
-document.getElementById('call').onclick=()=>{if(confirm('X: Confirm that you want to place this call?'))say('Confirmation received. No call was placed because this web app has no phone access.');else say('Call cancelled. No call was placed.')};
-document.getElementById('text').onclick=()=>{if(confirm('X: Confirm that you want to send this text?'))say('Confirmation received. No text was sent because this web app has no messaging access.');else say('Text cancelled. No text was sent.')};
-let lines=['INITIALIZING CORE','LOADING X PROTOCOLS','CHECKING SECURITY','SYSTEM READY'],n=0,t=setInterval(()=>{document.getElementById('bootLine').textContent=lines[n++];if(n===lines.length){clearInterval(t);setTimeout(()=>document.getElementById('boot').classList.add('hide'),500)}},550);
+
+const output=document.getElementById("output");
+const log=document.getElementById("log");
+const modal=document.getElementById("modal");
+
+
+/* CORE */
+
+function say(message){
+ output.innerHTML="<b>X:</b> "+message;
+ log.textContent="X LOG — "+message;
+}
+
+function save(key,value){
+ localStorage.setItem("X_"+key,JSON.stringify(value));
+}
+
+function load(key,fallback){
+ try{
+  const x=localStorage.getItem("X_"+key);
+  return x?JSON.parse(x):fallback;
+ }catch(e){
+  return fallback;
+ }
+}
+
+function closeModal(){
+ modal.style.display="none";
+
+ const content=document.getElementById("modalContent");
+
+ content.innerHTML="";
+}
+
+function showModal(html){
+ document.getElementById("modalContent").innerHTML=html;
+ modal.style.display="flex";
+}
+
+function showDashboard(){
+ closeModal();
+ say("Dashboard active. All local X systems are ready.");
+}
+
+
+/* CALL / TEXT SECURITY */
+
+function secureCall(){
+
+ const ok=confirm(
+  "X: Do you explicitly confirm that you want to place a call?"
+ );
+
+ if(ok){
+
+  say(
+   "Confirmation received. No call was placed because phone access is not connected."
+  );
+
+ }else{
+
+  say("Call cancelled. No call was placed.");
+
+ }
+
+}
+
+function secureText(){
+
+ const ok=confirm(
+  "X: Do you explicitly confirm that you want to send this text?"
+ );
+
+ if(ok){
+
+  say(
+   "Confirmation received. No text was sent because messaging access is not connected."
+  );
+
+ }else{
+
+  say("Text cancelled. No text was sent.");
+
+ }
+
+}
+
+
+/* INVESTOR */
+
+let portfolio=load("portfolio",{
+ cash:10000,
+ holdings:{}
+});
+
+function openInvestor(){
+
+ renderInvestor();
+
+ showModal(
+  document.getElementById("modalContent").innerHTML
+ );
+
+}
+
+function renderInvestor(){
+
+ let holdings="";
+
+ for(const symbol in portfolio.holdings){
+
+  const h=portfolio.holdings[symbol];
+
+  holdings+=`
+   <div class="item">
+    <span>
+     <b>${symbol}</b><br>
+     ${h.shares} shares @ $${h.price.toFixed(2)}
+    </span>
+
+    <button
+     class="action small"
+     onclick="sellStock('${symbol}')"
+    >
+     SELL
+    </button>
+   </div>
+  `;
+
+ }
+
+ if(!holdings){
+
+  holdings='<p class="muted">No holdings yet.</p>';
+
+ }
+
+ document.getElementById("modalContent").innerHTML=`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>▣ X INVESTOR</h2>
+
+  <div class="metric">
+   $${portfolio.cash.toFixed(2)}
+  </div>
+
+  <p class="muted">
+   AVAILABLE SIMULATED CASH
+  </p>
+
+  <div class="row">
+
+   <input
+    id="stockSymbol"
+    placeholder="Ticker e.g. NVDA"
+   >
+
+   <input
+    id="stockPrice"
+    type="number"
+    step=".01"
+    placeholder="Price"
+   >
+
+   <input
+    id="stockShares"
+    type="number"
+    min="1"
+    placeholder="Shares"
+   >
+
+  </div>
+
+  <button
+   class="action"
+   onclick="buyStock()"
+  >
+   BUY STOCK
+  </button>
+
+  <h3>PORTFOLIO</h3>
+
+  ${holdings}
+
+  <p class="muted">
+   This is a simulation. No real trades are placed.
+  </p>
+ `;
+}
+
+function buyStock(){
+
+ const symbol=
+  document.getElementById("stockSymbol").value
+  .trim()
+  .toUpperCase();
+
+ const price=
+  Number(document.getElementById("stockPrice").value);
+
+ const shares=
+  Number(document.getElementById("stockShares").value);
+
+ if(!symbol||price<=0||shares<=0){
+
+  alert(
+   "Enter a ticker, valid price and number of shares."
+  );
+
+  return;
+ }
+
+ const cost=price*shares;
+
+ if(cost>portfolio.cash){
+
+  alert("Not enough simulated cash.");
+
+  return;
+ }
+
+ portfolio.cash-=cost;
+
+ if(!portfolio.holdings[symbol]){
+
+  portfolio.holdings[symbol]={
+   shares:0,
+   price:price
+  };
+
+ }
+
+ const h=portfolio.holdings[symbol];
+
+ const totalShares=h.shares+shares;
+
+ h.price=
+  (
+   (h.price*h.shares)+(price*shares)
+  )/totalShares;
+
+ h.shares=totalShares;
+
+ save("portfolio",portfolio);
+
+ updateBalance();
+
+ renderInvestor();
+}
+
+function sellStock(symbol){
+
+ const h=portfolio.holdings[symbol];
+
+ if(!h)return;
+
+ const proceeds=h.price*h.shares;
+
+ portfolio.cash+=proceeds;
+
+ delete portfolio.holdings[symbol];
+
+ save("portfolio",portfolio);
+
+ updateBalance();
+
+ renderInvestor();
+}
+
+function updateBalance(){
+
+ document.getElementById("balance").textContent=
+  "$"+portfolio.cash.toFixed(2);
+
+}
+
+
+/* CALENDAR */
+
+let events=load("events",[]);
+
+function openCalendar(){
+
+ renderCalendar();
+
+ showModal(
+  document.getElementById("modalContent").innerHTML
+ );
+
+}
+
+function renderCalendar(){
+
+ let list=events.map((e,i)=>`
+
+  <div class="item">
+
+   <span>
+    <b>${e.title}</b><br>
+    ${e.date}
+    ${e.time?" • "+e.time:""}
+   </span>
+
+   <button
+    class="action small"
+    onclick="deleteEvent(${i})"
+   >
+    DELETE
+   </button>
+
+  </div>
+
+ `).join("");
+
+ if(!list){
+
+  list=
+   '<p class="muted">No events scheduled.</p>';
+
+ }
+
+ document.getElementById("modalContent").innerHTML=`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>□ X CALENDAR</h2>
+
+  <div class="row">
+
+   <input
+    id="eventTitle"
+    placeholder="Event name"
+   >
+
+   <input
+    id="eventDate"
+    type="date"
+   >
+
+   <input
+    id="eventTime"
+    type="time"
+   >
+
+  </div>
+
+  <button
+   class="action"
+   onclick="addEvent()"
+  >
+   ADD EVENT
+  </button>
+
+  <h3>EVENTS</h3>
+
+  ${list}
+ `;
+}
+
+function addEvent(){
+
+ const title=
+  document.getElementById("eventTitle").value.trim();
+
+ const date=
+  document.getElementById("eventDate").value;
+
+ const time=
+  document.getElementById("eventTime").value;
+
+ if(!title||!date){
+
+  alert(
+   "Enter an event name and date."
+  );
+
+  return;
+ }
+
+ events.push({
+  title,
+  date,
+  time
+ });
+
+ events.sort(
+  (a,b)=>
+   (a.date+a.time).localeCompare(
+    b.date+b.time
+   )
+ );
+
+ save("events",events);
+
+ renderCalendar();
+}
+
+function deleteEvent(i){
+
+ events.splice(i,1);
+
+ save("events",events);
+
+ renderCalendar();
+
+}
+
+
+/* REMINDERS */
+
+let reminders=load("reminders",[]);
+
+function openReminders(){
+
+ renderReminders();
+
+ showModal(
+  document.getElementById("modalContent").innerHTML
+ );
+
+}
+
+function renderReminders(){
+
+ let list=reminders.map((r,i)=>`
+
+  <div class="item">
+
+   <span style="${
+    r.done
+     ?"text-decoration:line-through;opacity:.5"
+     :""
+   }">
+
+    ${r.done?"✓ ":""}${r.text}
+
+   </span>
+
+   <span>
+
+    <button
+     class="action small"
+     onclick="toggleReminder(${i})"
+    >
+     ✓
+    </button>
+
+    <button
+     class="action small"
+     onclick="deleteReminder(${i})"
+    >
+     ✕
+    </button>
+
+   </span>
+
+  </div>
+
+ `).join("");
+
+ if(!list){
+
+  list=
+   '<p class="muted">No reminders.</p>';
+
+ }
+
+ document.getElementById("modalContent").innerHTML=`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>♢ X REMINDERS</h2>
+
+  <div class="row">
+
+   <input
+    id="reminderText"
+    placeholder="What do you need to remember?"
+   >
+
+  </div>
+
+  <button
+   class="action"
+   onclick="addReminder()"
+  >
+   ADD REMINDER
+  </button>
+
+  <h3>REMINDERS</h3>
+
+  ${list}
+ `;
+}
+
+function addReminder(){
+
+ const text=
+  document.getElementById("reminderText")
+  .value.trim();
+
+ if(!text)return;
+
+ reminders.push({
+  text,
+  done:false
+ });
+
+ save("reminders",reminders);
+
+ renderReminders();
+}
+
+function toggleReminder(i){
+
+ reminders[i].done=
+  !reminders[i].done;
+
+ save("reminders",reminders);
+
+ renderReminders();
+}
+
+function deleteReminder(i){
+
+ reminders.splice(i,1);
+
+ save("reminders",reminders);
+
+ renderReminders();
+}
+
+
+/* EMAIL */
+
+function openEmail(){
+
+ const draft=load("draft",{
+  to:"",
+  subject:"",
+  body:""
+ });
+
+ showModal(`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>✉ X EMAIL</h2>
+
+  <p class="muted">
+   LOCAL EMAIL COMPOSER
+  </p>
+
+  <input
+   id="emailTo"
+   placeholder="To"
+   value="${escapeHTML(draft.to)}"
+  >
+
+  <input
+   id="emailSubject"
+   placeholder="Subject"
+   value="${escapeHTML(draft.subject)}"
+  >
+
+  <textarea
+   id="emailBody"
+   placeholder="Message"
+  >${escapeHTML(draft.body)}</textarea>
+
+  <button
+   class="action"
+   onclick="saveDraft()"
+  >
+   SAVE DRAFT
+  </button>
+
+  <p class="muted">
+   No email is sent. Connect an email service
+   to enable real sending.
+  </p>
+ `);
+}
+
+function saveDraft(){
+
+ const draft={
+  to:document.getElementById("emailTo").value,
+  subject:document.getElementById("emailSubject").value,
+  body:document.getElementById("emailBody").value
+ };
+
+ save("draft",draft);
+
+ say("Email draft saved locally.");
+
+ closeModal();
+}
+
+
+/* APPS */
+
+function openApps(){
+
+ showModal(`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>▦ X APP CENTER</h2>
+
+  <button
+   class="action"
+   onclick="openInvestor()"
+  >
+   ▣ Investor
+  </button>
+
+  <button
+   class="action"
+   onclick="openCalendar()"
+  >
+   □ Calendar
+  </button>
+
+  <button
+   class="action"
+   onclick="openReminders()"
+  >
+   ♢ Reminders
+  </button>
+
+  <button
+   class="action"
+   onclick="openEmail()"
+  >
+   ✉ Email
+  </button>
+
+  <button
+   class="action"
+   onclick="openYouTube()"
+  >
+   ▶ YouTube
+  </button>
+ `);
+}
+
+
+/* YOUTUBE */
+
+function openYouTube(){
+
+ showModal(`
+
+  <button class="close" onclick="closeModal()">✕</button>
+
+  <h2>▶ X YOUTUBE</h2>
+
+  <p class="muted">
+   PLAY A YOUTUBE VIDEO INSIDE X
+  </p>
+
+  <input
+   id="youtubeInput"
+   placeholder="Paste YouTube link or video ID"
+  >
+
+  <button
+   class="action"
+   onclick="playYouTube()"
+  >
+   ▶ PLAY VIDEO
+  </button>
+
+  <div id="youtubePlayer"></div>
+
+  <div class="videoHint">
+   Paste a normal YouTube video link,
+   a youtu.be link, or just the video ID.
+  </div>
+ `);
+
+}
+
+function getYouTubeId(value){
+
+ value=value.trim();
+
+ if(!value)return "";
+
+ /*
+  Accept:
+  normal YouTube links
+  youtu.be links
+  Shorts links
+  embed links
+  direct video IDs
+ */
+
+ let match=
+  value.match(
+   /(?:youtube\\.com\\/(?:watch\\?v=|embed\\/|shorts\\/)|youtu\\.be\\/)([A-Za-z0-9_-]{11})/
+  );
+
+ if(match){
+
+  return match[1];
+
+ }
+
+ if(/^[A-Za-z0-9_-]{11}$/.test(value)){
+
+  return value;
+
+ }
+
+ return "";
+}
+
+function playYouTube(){
+
+ const value=
+  document.getElementById("youtubeInput")
+  .value;
+
+ const id=getYouTubeId(value);
+
+ if(!id){
+
+  alert(
+   "X could not recognize that YouTube video. Paste a YouTube link or 11-character video ID."
+  );
+
+  return;
+ }
+
+ /*
+  Build the player address without storing
+  a raw external URL in the source.
+ */
+
+ const host=
+  "https://"+"www.youtube.com";
+
+ const embed=
+  host+"/embed/"+id+
+  "?autoplay=1&rel=0";
+
+ document.getElementById("youtubePlayer").innerHTML=`
+
+  <div class="videoWrap">
+
+   <iframe
+    src="${embed}"
+    title="X YouTube Player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+   </iframe>
+
+  </div>
+ `;
+
+ save("lastYouTubeVideo",id);
+
+ say(
+  "YouTube player loaded. Video ID: "+id
+ );
+}
+
+
+/* COMMAND CENTER */
+
+function runCommand(){
+
+ const v=
+  document.getElementById("cmd")
+  .value.trim();
+
+ if(!v){
+
+  say("Please enter a command.");
+
+  return;
+ }
+
+ const x=v.toLowerCase();
+
+ if(
+  x.includes("youtube")||
+  x.includes("video")||
+  x.includes("play ")
+ ){
+
+  say("YouTube mode engaged.");
+
+  openYouTube();
+
+ }
+
+ else if(
+  x.includes("invest")||
+  x.includes("nvda")||
+  x.includes("stock")
+ ){
+
+  say("Investor mode engaged.");
+
+  openInvestor();
+
+ }
+
+ else if(
+  x.includes("calendar")||
+  x.includes("event")
+ ){
+
+  say("Calendar opened.");
+
+  openCalendar();
+
+ }
+
+ else if(
+  x.includes("reminder")
+ ){
+
+  say("Reminders opened.");
+
+  openReminders();
+
+ }
+
+ else if(
+  x.includes("email")
+ ){
+
+  say("Email composer opened.");
+
+  openEmail();
+
+ }
+
+ else if(
+  x.includes("apps")
+ ){
+
+  say("App Center opened.");
+
+  openApps();
+
+ }
+
+ else if(
+  x.includes("status")
+ ){
+
+  say(
+   "All X prototype systems are online. Local storage is active."
+  );
+
+ }
+
+ else if(
+  x.includes("help")
+ ){
+
+  say(
+   "Try: YouTube, video, investor, calendar, reminders, email, apps, or status."
+  );
+
+ }
+
+ else{
+
+  say(
+   "Command received: "+escapeHTML(v)
+  );
+
+ }
+
+ document.getElementById("cmd").value="";
+}
+
+
+/* SECURITY */
+
+function escapeHTML(str){
+
+ return String(str)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+
+/* BOOT */
+
+let lines=[
+ "INITIALIZING CORE",
+ "LOADING X PROTOCOLS",
+ "CHECKING SECURITY",
+ "LOADING LOCAL STORAGE",
+ "LOADING VIDEO SYSTEM",
+ "SYSTEM READY"
+];
+
+let n=0;
+
+let timer=setInterval(()=>{
+
+ document.getElementById("bootLine")
+  .textContent=lines[n++];
+
+ if(n===lines.length){
+
+  clearInterval(timer);
+
+  setTimeout(()=>{
+
+   document
+    .getElementById("boot")
+    .classList
+    .add("hide");
+
+  },500);
+
+ }
+
+},400);
+
+updateBalance();
+
 </script>
+
 </body>
 </html>
