@@ -1323,25 +1323,53 @@ let lines=[
  "SYSTEM READY"
 ];
 
+/* BOOT */
+
+let lines = [
+  "INITIALIZING CORE",
+  "LOADING X PROTOCOLS",
+  "CHECKING SECURITY",
+  "LOADING LOCAL STORAGE",
+  "LOADING VIDEO SYSTEM",
+  "SYSTEM READY"
+];
+
 /* BOOT — FIXED */
 
-function finishBoot(){
+function finishBoot() {
   const boot = document.getElementById("boot");
   const line = document.getElementById("bootLine");
 
-  if(line) line.textContent = "SYSTEM ONLINE";
+  if (line) {
+    line.textContent = "SYSTEM ONLINE";
+  }
 
-  if(boot){
+  if (boot) {
     boot.classList.add("hide");
-    setTimeout(() => {
+
+    setTimeout(function () {
       boot.style.display = "none";
     }, 800);
   }
 }
-setTimeout(finishBoot, 1000);
 
- updateBalance();
+/* Start X even if another function has an error */
+window.addEventListener("load", function () {
+  setTimeout(finishBoot, 1000);
 
+  try {
+    if (typeof updateBalance === "function") {
+      updateBalance();
+    }
+  } catch (error) {
+    console.error("updateBalance error:", error);
+  }
+});
+
+/* Emergency fallback */
+setTimeout(function () {
+  finishBoot();
+}, 4000);
 
 
  </script>
